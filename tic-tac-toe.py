@@ -3,9 +3,9 @@ board = [' ' for _ in range(9)]
 def print_board():
     print()
     for i in range(3):
-        print(f'{board[i*3]} | {board[i*3+1]} | {board[i*3+2]}')
+        print(f'{board[i*3]}    | {board[i*3+1]}    |  {board[i*3+2]}')
         if i < 2:
-            print('---|---|---')
+            print(' --- | --- | --- ')
     print()
 
 def get_player_move(player):
@@ -30,10 +30,9 @@ def check_winner(player):
     for combo in win_combo:
         if all(board[i] ==player for i in combo):
             return True
-        return False
+    return False
 
 def is_draw():
-    print('Draw!')
     return ' ' not in board
 
 def play_game():
@@ -49,6 +48,7 @@ def play_game():
             print(f'Player {current_player} wins!')
 
         elif is_draw():
+            print('Draw!')
             print_board()
             break
 
