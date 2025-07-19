@@ -77,19 +77,17 @@ def starting_area(player):
     Returns:
         str: The direction the player chooses to move.
     """
-    print("\nYou awaken in a quiet clearing surrounded by thick forest.")
-    print("The only visible path leads to the north.\n")
-
+    print('it seems your only option is to got *NORTH* to freeson')
     while True:
         user_input = input("> ").strip().lower()
 
         if user_input in ["go north", "north", "n"]:
-            print("\nYou push through the foliage and head north, deeper into the unknown...")
+            print("\nYou make your way down the road to the north, freeson becoming larger in the distance")
             return "north"
 
         elif user_input in ["character", "stats", "inventory"]:
             print("\n-- Character Info --")
-            print(f"Name: {player.get('name', 'Unknown')}")
+            print(f"Name: {player.get('name', 'Nameless Courier')}")
             print("Stats:")
             for stat, value in player.get("stats", {}).items():
                 print(f"  {stat.title()}: {value}")
@@ -101,3 +99,11 @@ def starting_area(player):
 
         else:
             print("\nYou can't do that here. Try going 'north' or type 'character' to check your stats and gear.")
+
+if __name__ =='__main__':
+    while True:
+        character['name'] = input('what is your name?: ')
+        print('you wake up in a small cabin')
+        print('you rested here last night on your way to freeson, a nearby town, to the *NORTH*')
+        print('what would you like to do?')
+        starting_area(character)
