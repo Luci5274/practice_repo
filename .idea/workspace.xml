@@ -4,9 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="d84b4bf0-6d7e-4470-9804-fb2ef7d5f6b1" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/to-do.py" beforeDir="false" afterPath="$PROJECT_DIR$/to-do.py" afterDir="false" />
-    </list>
+    <list default="true" id="d84b4bf0-6d7e-4470-9804-fb2ef7d5f6b1" name="Changes" comment="" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
