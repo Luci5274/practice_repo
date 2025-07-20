@@ -19,3 +19,4 @@ def basic_calc():
         print(f'{x} {op} {y} = {fin}!')
     else:
         print(f"Error: '{op}' is not a valid operator.")
+
