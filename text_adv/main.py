@@ -3,7 +3,7 @@ import random
 
 # --- Character state dictionary ---
 character = {
-    "name": "playername",  # This will be replaced with the player's input
+    "name": "playername",
     "stats": {
         "health": 100,
         "stamina": 75,
@@ -50,11 +50,13 @@ available_commands = {
     'attack': 'strike with your equipped weapon'
 }
 
+
 def show_help():
     """Prints the list of available commands and their descriptions."""
     print('\nAvailable commands:')
     for command, description in available_commands.items():
         print(f'- {command:<10} -- {description}')
+
 
 def display_inventory(player):
     """Displays the player's inventory, including consumables, equipment, and equipped items."""
@@ -75,11 +77,11 @@ def display_inventory(player):
         for attr, value in attributes.items():
             print(f"    {attr.title()}: {value}")
 
+
 def attack(player):
     """
     Calculates and displays the attack damage based on the player's stamina,
     weapon damage, and weapon durability.
-
     Formula: stamina * (damage * 10 / durability)
     """
     try:
@@ -102,6 +104,7 @@ def attack(player):
     except Exception as e:
         print(f"\nUnexpected error: {e}")
 
+
 def handle_global_command(command, player):
     """
     Checks and executes any recognized global command.
@@ -120,15 +123,19 @@ def handle_global_command(command, player):
         return False
     return True
 
+
 def freeson(player):
     """
-    Placeholder for Freeson — the main town hub where players can shop and take missions.
+    Freeson — town hub. Adds location-specific commands when active.
     """
-    PO_inv = {}
+    # Area-specific commands
     freeson_commands = {
         "general store": "buy and sell items",
         "post office": "pick up or turn in deliveries"
     }
+
+    # Add to global command list
+    available_commands.update(freeson_commands)
 
     print("\n[Placeholder] You have arrived in Freeson.")
     print("You see a post office, a general store, and the town square with a few people milling about.")
@@ -143,13 +150,23 @@ def freeson(player):
             print(f'Hello, {character["name"]}')
 
         elif user_input == "leave":
+            # Remove area-specific commands
+            for key in freeson_commands:
+                available_commands.pop(key, None)
             return "starting_area"
 
         else:
             print("\nYou can look around, visit places, or type 'help' for available options.")
 
+
 def starting_area(player):
     """Handles the interaction in the starting area and accepts player input."""
+    # No custom commands here yet, but setup in case you want to add some
+    starting_area_commands = {}
+
+    # Add them if needed
+    available_commands.update(starting_area_commands)
+
     print('It seems your only option is to go *NORTH* to Freeson.')
 
     while True:
@@ -159,11 +176,19 @@ def starting_area(player):
             continue
 
         if user_input in ["go north", "north", "n"]:
+            # Clean up area-specific commands on exit
+            for key in starting_area_commands:
+                available_commands.pop(key, None)
             print("\nYou make your way down the road to the north, Freeson becoming larger in the distance.")
             return "freeson"
 
+        elif user_input in ["look", "look around"]:
+            print("\nYou are in a grassy clearing. The air smells of moss and bark.")
+            print("The forest presses in from all sides, except for a narrow trail to the north.")
+
         else:
             print("\nYou can't do that here. Try going 'north' or type 'character' to check your stats and gear.")
+
 
 def game_loop(player):
     """Main game loop that controls flow between different areas or game scenes."""
@@ -189,14 +214,12 @@ def game_loop(player):
 
         current_location = next_location
 
+
 if __name__ == '__main__':
-    # Ask for the player's name
     character['name'] = input('What is your name?: ')
 
-    # Introductory narrative
     print("\nYou wake up in a small cabin.")
     print("You rested here last night on your way to Freeson, a nearby town, to the *NORTH*.")
     print("What would you like to do?")
 
-    # Start the game loop
     game_loop(character)
