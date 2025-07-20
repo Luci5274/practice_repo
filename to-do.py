@@ -30,9 +30,14 @@ while True:
         else:
             continue
 
-    elif add_to_list == 'remove':
+    if add_to_list in ['show list', 'list','l','sl','ls']
+            for x, task in enumerate(todo):
+                print(f'- {x+1}: {task["task"]} ({task["status"]})')
+
+
+    elif add_to_list in[ 'remove','delete']:
         for x, task in enumerate(todo):
-            print(f'- {x}: {task["task"]} ({task["status"]})')
+            print(f'- {x+1}: {task["task"]} ({task["status"]})')
         try:
             task_index = int(input('Enter the index of the task you want removed: '))
         except ValueError as e:
@@ -67,7 +72,7 @@ while True:
 
     # Ask for task status
     status_input = input('What is the status of this task? (complete/in progress/not started): ').strip().lower()
-    if status_input not in ['complete', 'in progress', 'not started']:
+    if status_input not in ['done','d','complete','c','in progress','ip','started','s', 'not started','ns']:
         print('Invalid status. Defaulting to "not started".')
         status_input = 'not started'
 
@@ -81,4 +86,4 @@ while True:
 
     print('\nCurrent To-Do List:')
     for x, task in enumerate(todo):
-        print(f'- {x}: {task["task"]} ({task["status"]})')
+        print(f'- {x+1}: {task["task"]} ({task["status"]})')
