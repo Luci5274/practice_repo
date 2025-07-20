@@ -17,6 +17,7 @@ character = {
         "equipment": {
             "letter": {
                 "type": "quest item"
+
             },
             "rebar spear": {
                 "type": "weapon",
