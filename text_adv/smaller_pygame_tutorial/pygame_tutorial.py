@@ -10,8 +10,8 @@ green = (0, 255, 0)       # Text color
 blue = (0, 0, 128)        # Background for text
 
 # Set the dimensions of the window
-x = 400
-y = 400
+x = 600
+y = 600
 
 # Create the display window with width x and height y
 display_surface = pygame.display.set_mode((x, y))
@@ -49,4 +49,8 @@ while True:
     for event in pygame.event.get():
         # If the window close button is clicked, quit the game safely
         if event.type == pygame.QUIT:
-            pygame.quit()  # Uninitialize all pygame module
+            pygame.quit()  # Uninitialize all pygame modules
+            quit()         # Exit the Python program
+
+    # Update the screen with the new frame
+    pygame.display.update()

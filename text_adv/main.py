@@ -1,7 +1,7 @@
 # courier text adventure
 import random
 
-# Character state dictionary
+# --- Character state dictionary ---
 character = {
     "name": "playername",  # This will be replaced with the player's input
     "stats": {
@@ -12,12 +12,11 @@ character = {
     "inventory": {
         "consumables": {
             "medkit": 1,
-            'caps' : 10
+            "caps": 10
         },
         "equipment": {
             "letter": {
                 "type": "quest item"
-
             },
             "rebar spear": {
                 "type": "weapon",
@@ -33,6 +32,7 @@ character = {
     }
 }
 
+# --- List of world destinations (excluding Freeson) ---
 destinations = [
     "Ironfall",
     "Mistwood",
@@ -41,7 +41,7 @@ destinations = [
     "Emberfield"
 ]
 
-# Dictionary of commands and their descriptions
+# --- Dictionary of available global commands ---
 available_commands = {
     'help': 'show this help message',
     'look': 'inspect your surroundings',
@@ -52,15 +52,13 @@ available_commands = {
     'quit': 'exit the game',
 }
 
-
 def show_help():
     """
-    Prints the list of available commands and what each does.
+    Prints the list of available commands and their descriptions.
     """
     print('\nAvailable commands:')
     for command, description in available_commands.items():
         print(f'- {command:<10} -- {description}')
-
 
 def display_inventory(player):
     """
@@ -107,16 +105,32 @@ def freeson(player):
         player (dict): The full character dictionary.
 
     Returns:
-        str: The next location or action (currently ends the game).
+        str: The next location or 'end' to finish the game.
     """
-    freeson_commands = {}
+    freeson_commands = {
+        "visit general store": "buy and sell items",
+        "go to post office": "pick up or turn in deliveries"
+    }
 
     print("\n[Placeholder] You have arrived in Freeson.")
-    print("You see a post office, a general store, and the town square with few people milling about.")
-    if user_input in ['help', 'h']:
+    print("You see a post office, a general store, and the town square with a few people milling about.")
+
+    while True:
+        user_input = input("> ").strip().lower()
+
+        if user_input in ["help", "h"]:
             show_help()
-            for key,value in freeson_commands.items():
-                print(f'{key} --{value}')
+            for key, value in freeson_commands.items():
+                print(f"- {key:<20} -- {value}")
+
+        elif user_input == "quit":
+            return "end"
+
+        elif user_input == "leave":
+            return "starting_area"
+
+        else:
+            print("\nYou can look around, visit places, or type 'help' for available options.")
 
 def starting_area(player):
     """
@@ -126,7 +140,7 @@ def starting_area(player):
         player (dict): The full character dictionary.
 
     Returns:
-        str: The direction the player chooses to move (e.g., 'north').
+        str: The direction the player chooses to move (e.g., 'freeson').
     """
     print('It seems your only option is to go *NORTH* to Freeson.')
 
@@ -135,7 +149,7 @@ def starting_area(player):
 
         if user_input in ["go north", "north", "n"]:
             print("\nYou make your way down the road to the north, Freeson becoming larger in the distance.")
-            return "north"  # Tell game_loop to update location
+            return "freeson"
 
         elif user_input in ["character", "stats", "inventory"]:
             print("\n-- Character Info --")
@@ -149,18 +163,15 @@ def starting_area(player):
             print("\nYou are in a grassy clearing. The air smells of moss and bark.")
             print("The forest presses in from all sides, except for a narrow trail to the north.")
 
-        elif user_input in ['help', 'h']:
+        elif user_input in ["help", "h"]:
             show_help()
 
-        elif user_input in ['quit', 'exit']:
+        elif user_input in ["quit", "exit"]:
             print("\nYou sit back down in the cabin and decide not to continue today.")
             exit()
 
         else:
             print("\nYou can't do that here. Try going 'north' or type 'character' to check your stats and gear.")
-
-
-
 
 def game_loop(player):
     """
@@ -169,24 +180,30 @@ def game_loop(player):
     Args:
         player (dict): The full character dictionary.
     """
+    # Map of all location names to their corresponding functions
+    locations = {
+        "starting_area": starting_area,
+        "freeson": freeson
+        # Add other locations as you develop them
+    }
+
     current_location = "starting_area"
 
     while True:
-        if current_location == "starting_area":
-            next_location = starting_area(player)
-            if next_location == "north":
-                current_location = "freeson"
+        location_func = locations.get(current_location)
 
-        elif current_location == "freeson":
-            next_location = freeson(player)
-            if next_location == "end":
-                print("\nThank you for playing. More content coming soon!")
-                break
-
-        else:
+        if not location_func:
             print(f"\nError: Unknown location '{current_location}'. Exiting game.")
             break
 
+        # Run the current scene and get the name of the next location
+        next_location = location_func(player)
+
+        if next_location == "end":
+            print("\nThank you for playing. More content coming soon!")
+            break
+
+        current_location = next_location
 
 if __name__ == '__main__':
     # Ask for the player's name
