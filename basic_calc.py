@@ -24,6 +24,6 @@ while True:
     basic_calc()
 
     replay = input('do you want to go again? (Y/N): ').strip().upper()
-    if replay not in ['y','yes']:
+    if replay not in ['Y','YES']:
         print('goodbye')
         break
