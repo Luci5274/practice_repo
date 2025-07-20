@@ -15,9 +15,6 @@ character = {
             "caps": 10
         },
         "equipment": {
-            "letter": {
-                "type": "quest item"
-            },
             "rebar spear": {
                 "type": "weapon",
                 "durability": 50,
@@ -50,66 +47,87 @@ available_commands = {
     'go': '(needs to be paired with a direction e.g., "north")',
     'save': 'save the game',
     'quit': 'exit the game',
+    'attack': 'strike with your equipped weapon'
 }
 
 def show_help():
-    """
-    Prints the list of available commands and their descriptions.
-    """
+    """Prints the list of available commands and their descriptions."""
     print('\nAvailable commands:')
     for command, description in available_commands.items():
         print(f'- {command:<10} -- {description}')
 
 def display_inventory(player):
-    """
-    Displays the player's inventory, including consumables, equipment, and equipped items.
-
-    Args:
-        player (dict): The character dictionary containing inventory data.
-    """
+    """Displays the player's inventory, including consumables, equipment, and equipped items."""
     inv = player.get("inventory", {})
 
     print("\n-- Inventory --")
-
-    # Equipped items
-    equipped = inv.get("equipped", {})
     print("Equipped:")
-    for slot, item in equipped.items():
+    for slot, item in inv.get("equipped", {}).items():
         print(f"  {slot.title()}: {item}")
 
-    # Consumables
-    consumables = inv.get("consumables", {})
     print("\nConsumables:")
-    if consumables:
-        for item, count in consumables.items():
-            print(f"  {item} (x{count})")
-    else:
-        print("  None")
+    for item, count in inv.get("consumables", {}).items():
+        print(f"  {item} (x{count})")
 
-    # Equipment
-    equipment = inv.get("equipment", {})
     print("\nEquipment:")
-    if equipment:
-        for item_name, attributes in equipment.items():
-            print(f"  {item_name.title()}:")
-            for attr, value in attributes.items():
-                print(f"    {attr.title()}: {value}")
+    for item_name, attributes in inv.get("equipment", {}).items():
+        print(f"  {item_name.title()}:")
+        for attr, value in attributes.items():
+            print(f"    {attr.title()}: {value}")
+
+def attack(player):
+    """
+    Calculates and displays the attack damage based on the player's stamina,
+    weapon damage, and weapon durability.
+
+    Formula: stamina * (damage * 10 / durability)
+    """
+    try:
+        equipped_weapon_name = player["inventory"]["equipped"]["weapon"]
+        weapon = player["inventory"]["equipment"][equipped_weapon_name]
+        damage = weapon["damage"]
+        durability = weapon["durability"]
+        stamina = player["stats"]["stamina"]
+
+        if durability == 0:
+            print(f"\nYour {equipped_weapon_name} is broken! It can't be used.")
+            return
+
+        attack_value = stamina * ((damage * 10) / durability)
+        print(f"\nYou strike with your {equipped_weapon_name}!")
+        print(f"Damage dealt: {round(attack_value, 2)}")
+
+    except KeyError as e:
+        print(f"\nAttack failed: missing data - {e}")
+    except Exception as e:
+        print(f"\nUnexpected error: {e}")
+
+def handle_global_command(command, player):
+    """
+    Checks and executes any recognized global command.
+    Returns True if the command was handled, False otherwise.
+    """
+    if command in ["help", "h"]:
+        show_help()
+    elif command in ["inventory", "character", "stats"]:
+        display_inventory(player)
+    elif command == "attack":
+        attack(player)
+    elif command in ["quit", "exit"]:
+        print("\nYou sit back down in the cabin and decide not to continue today.")
+        exit()
     else:
-        print("  None")
+        return False
+    return True
 
 def freeson(player):
     """
     Placeholder for Freeson — the main town hub where players can shop and take missions.
-
-    Args:
-        player (dict): The full character dictionary.
-
-    Returns:
-        str: The next location or 'end' to finish the game.
     """
+    PO_inv = {}
     freeson_commands = {
-        "visit general store": "buy and sell items",
-        "go to post office": "pick up or turn in deliveries"
+        "general store": "buy and sell items",
+        "post office": "pick up or turn in deliveries"
     }
 
     print("\n[Placeholder] You have arrived in Freeson.")
@@ -118,13 +136,11 @@ def freeson(player):
     while True:
         user_input = input("> ").strip().lower()
 
-        if user_input in ["help", "h"]:
-            show_help()
-            for key, value in freeson_commands.items():
-                print(f"- {key:<20} -- {value}")
+        if handle_global_command(user_input, player):
+            continue
 
-        elif user_input == "quit":
-            return "end"
+        if user_input in ['post office', 'post', 'go to post office', 'go to post', 'p o']:
+            print(f'Hello, {character["name"]}')
 
         elif user_input == "leave":
             return "starting_area"
@@ -133,58 +149,27 @@ def freeson(player):
             print("\nYou can look around, visit places, or type 'help' for available options.")
 
 def starting_area(player):
-    """
-    Handles the interaction in the starting area and accepts player input.
-
-    Args:
-        player (dict): The full character dictionary.
-
-    Returns:
-        str: The direction the player chooses to move (e.g., 'freeson').
-    """
+    """Handles the interaction in the starting area and accepts player input."""
     print('It seems your only option is to go *NORTH* to Freeson.')
 
     while True:
         user_input = input("> ").strip().lower()
 
+        if handle_global_command(user_input, player):
+            continue
+
         if user_input in ["go north", "north", "n"]:
             print("\nYou make your way down the road to the north, Freeson becoming larger in the distance.")
             return "freeson"
-
-        elif user_input in ["character", "stats", "inventory"]:
-            print("\n-- Character Info --")
-            print(f"Name: {player.get('name', 'Nameless Courier')}")
-            print("Stats:")
-            for stat, value in player.get("stats", {}).items():
-                print(f"  {stat.title()}: {value}")
-            display_inventory(player)
-
-        elif user_input in ["look", "look around"]:
-            print("\nYou are in a grassy clearing. The air smells of moss and bark.")
-            print("The forest presses in from all sides, except for a narrow trail to the north.")
-
-        elif user_input in ["help", "h"]:
-            show_help()
-
-        elif user_input in ["quit", "exit"]:
-            print("\nYou sit back down in the cabin and decide not to continue today.")
-            exit()
 
         else:
             print("\nYou can't do that here. Try going 'north' or type 'character' to check your stats and gear.")
 
 def game_loop(player):
-    """
-    Main game loop that controls flow between different areas or game scenes.
-
-    Args:
-        player (dict): The full character dictionary.
-    """
-    # Map of all location names to their corresponding functions
+    """Main game loop that controls flow between different areas or game scenes."""
     locations = {
         "starting_area": starting_area,
         "freeson": freeson
-        # Add other locations as you develop them
     }
 
     current_location = "starting_area"
@@ -196,7 +181,6 @@ def game_loop(player):
             print(f"\nError: Unknown location '{current_location}'. Exiting game.")
             break
 
-        # Run the current scene and get the name of the next location
         next_location = location_func(player)
 
         if next_location == "end":
