@@ -6,7 +6,6 @@
   <component name="ChangeListManager">
     <list default="true" id="d84b4bf0-6d7e-4470-9804-fb2ef7d5f6b1" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/to-do.py" beforeDir="false" afterPath="$PROJECT_DIR$/to-do.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -43,26 +42,26 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "ASKED_SHARE_PROJECT_CONFIGURATION_FILES": "true",
-    "ModuleVcsDetector.initialDetectionPerformed": "true",
-    "Python.basic_calc.executor": "Run",
-    "Python.connor_temp_convert.executor": "Run",
-    "Python.f-c_claculator.executor": "Run",
-    "Python.main.executor": "Run",
-    "Python.temp_convert.executor": "Run",
-    "Python.tic-tac-toe.executor": "Run",
-    "Python.to-do.executor": "Run",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "RunOnceActivity.TerminalTabsStorage.copyFrom.TerminalArrangementManager": "true",
-    "RunOnceActivity.git.unshallow": "true",
-    "git-widget-placeholder": "practice__repo__GF",
-    "ignore.virus.scanning.warn.message": "true",
-    "last_opened_file_path": "C:/Users/Luci/Documents/Code/Practice_repo/practice_repo",
-    "settings.editor.selected.configurable": "com.jetbrains.python.configuration.PyActiveSdkModuleConfigurable"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;ASKED_SHARE_PROJECT_CONFIGURATION_FILES&quot;: &quot;true&quot;,
+    &quot;ModuleVcsDetector.initialDetectionPerformed&quot;: &quot;true&quot;,
+    &quot;Python.basic_calc.executor&quot;: &quot;Run&quot;,
+    &quot;Python.connor_temp_convert.executor&quot;: &quot;Run&quot;,
+    &quot;Python.f-c_claculator.executor&quot;: &quot;Run&quot;,
+    &quot;Python.main.executor&quot;: &quot;Run&quot;,
+    &quot;Python.temp_convert.executor&quot;: &quot;Run&quot;,
+    &quot;Python.tic-tac-toe.executor&quot;: &quot;Run&quot;,
+    &quot;Python.to-do.executor&quot;: &quot;Run&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.TerminalTabsStorage.copyFrom.TerminalArrangementManager&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.git.unshallow&quot;: &quot;true&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;practice__repo__GF&quot;,
+    &quot;ignore.virus.scanning.warn.message&quot;: &quot;true&quot;,
+    &quot;last_opened_file_path&quot;: &quot;C:/Users/Luci/Documents/Code/Practice_repo/practice_repo&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;com.jetbrains.python.configuration.PyActiveSdkModuleConfigurable&quot;
   }
-}]]></component>
+}</component>
   <component name="RunManager">
     <configuration name="temp_convert" type="PythonConfigurationType" factoryName="Python" nameIsGenerated="true">
       <module name="practice_repo" />

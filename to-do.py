@@ -1,6 +1,49 @@
 import json
 import os
 
+todo_commands = {
+    "add": {
+        "keywords": ["add", "new", "create"],
+        "description": "Add a new task to the list"
+    },
+    "remove": {
+        "keywords": ["remove", "delete", "rm"],
+        "description": "Delete a task from the list"
+    },
+    "list": {
+        "keywords": ["list", "show list", "ls", "sl", "l"],
+        "description": "Show the full list of tasks"
+    },
+    "edit": {
+        "keywords": ["edit", "update", "change"],
+        "description": "Edit an existing task's text or status"
+    },
+    "save": {
+        "keywords": ["save", "write"],
+        "description": "Save the current list to file"
+    },
+    "done": {
+        "keywords": ["done", "exit", "quit", "leave", "close"],
+        "description": "Exit the program"
+    },
+    "help": {
+        "keywords": ["help", "commands", "?"],
+        "description": "Show available commands"
+    },
+    "filter": {
+        "keywords": ["filter", "search"],
+        "description": "Filter tasks by status (e.g., completed, in progress)"
+    },
+    "sort": {
+        "keywords": ["sort", "order"],
+        "description": "Sort tasks alphabetically or by status"
+    },
+    "clear": {
+        "keywords": ["clear", "reset"],
+        "description": "Clear the entire task list (with confirmation)"
+    }
+}
+
 def save_list():
     with open('todo.json', 'w') as file:
         json.dump(todo, file)
