@@ -1,7 +1,6 @@
 import json
 import os
 
-
 def save_list():
     with open('todo.json', 'w') as file:
         json.dump(todo, file)
@@ -16,12 +15,56 @@ else:
         {'task': 'do laundry', 'status': 'not started'}
     ]
 
-def displaylist(todo):
+def display_list():
     for x, task in enumerate(todo):
         print(f'- {x + 1}: {task["task"]} ({task["status"]})')
 
 def to_do_list():
     print('Welcome to your to-do list!')
+    print('Commands: [task name], "list", "remove", "save", "done", "help"')
+
+todo_commands = {
+    "add": {
+        "keywords": ["add", "new", "create"],
+        "description": "Add a new task to the list"
+    },
+    "remove": {
+        "keywords": ["remove", "delete", "rm"],
+        "description": "Delete a task from the list"
+    },
+    "list": {
+        "keywords": ["list", "show list", "ls", "sl", "l"],
+        "description": "Show the full list of tasks"
+    },
+    "edit": {
+        "keywords": ["edit", "update", "change"],
+        "description": "Edit an existing task's text or status"
+    },
+    "save": {
+        "keywords": ["save", "write"],
+        "description": "Save the current list to file"
+    },
+    "done": {
+        "keywords": ["done", "exit", "quit", "leave", "close"],
+        "description": "Exit the program"
+    },
+    "help": {
+        "keywords": ["help", "commands", "?"],
+        "description": "Show available commands"
+    },
+    "filter": {
+        "keywords": ["filter", "search"],
+        "description": "Filter tasks by status (e.g., completed, in progress)"
+    },
+    "sort": {
+        "keywords": ["sort", "order"],
+        "description": "Sort tasks alphabetically or by status"
+    },
+    "clear": {
+        "keywords": ["clear", "reset"],
+        "description": "Clear the entire task list (with confirmation)"
+    }
+}
 
 to_do_list()
 
@@ -35,16 +78,21 @@ while True:
         else:
             continue
 
-    # ✅ FIXED: Missing colon added
     if add_to_list in ['show list', 'list', 'l', 'sl', 'ls']:
-        displaylist()
+        display_list()
+        continue
+
+    elif add_to_list in ['help', 'h', '?']:
+        print('\nAvailable Commands:')
+        for command, data in todo_commands.items():
+            keywords = ', '.join(data["keywords"])
+            print(f'{command.upper():<10} - {data["description"]} (aliases: {keywords})')
+        print()
         continue
 
     elif add_to_list in ['remove', 'delete']:
-        for x, task in enumerate(todo):
-            print(f'- {x+1}: {task["task"]} ({task["status"]})')
+        display_list()
         try:
-            # ✅ FIXED: Subtract 1 from user-friendly index
             task_index = int(input('Enter the task number you want removed (starting from 1): ')) - 1
         except ValueError as e:
             print("Input is not a valid integer.")
@@ -77,6 +125,7 @@ while True:
             print(e)
             continue
 
+    # Ask for status of the task
     status_input = input('What is the status of this task? (complete/in progress/not started): ').strip().lower()
 
     # Map shortcuts to full labels
@@ -99,5 +148,4 @@ while True:
     save_list()
 
     print('\nCurrent To-Do List:')
-    for x, task in enumerate(todo):
-        print(f'- {x+1}: {task["task"]} ({task["status"]})')
+    display_list()
