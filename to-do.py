@@ -1,6 +1,7 @@
 import json
 import os
 
+# --- Command dictionary ---
 todo_commands = {
     "add": {
         "keywords": ["add", "new", "create"],
@@ -23,7 +24,7 @@ todo_commands = {
         "description": "Save the current list to file"
     },
     "done": {
-        "keywords": ["done", "exit", "quit", "leave", "close"],
+        "keywords": ["done", "exit", "quit", "leave", "close" , 'q'],
         "description": "Exit the program"
     },
     "help": {
@@ -44,6 +45,14 @@ todo_commands = {
     }
 }
 
+# --- Identify command from keyword ---
+def identify_command(user_input):
+    for command, data in todo_commands.items():
+        if user_input in data['keywords']:
+            return command
+    return None
+
+# --- Load or create task list ---
 def save_list():
     with open('todo.json', 'w') as file:
         json.dump(todo, file)
@@ -58,6 +67,7 @@ else:
         {'task': 'do laundry', 'status': 'not started'}
     ]
 
+# --- Helpers ---
 def display_list():
     for x, task in enumerate(todo):
         print(f'- {x + 1}: {task["task"]} ({task["status"]})')
@@ -68,35 +78,37 @@ def to_do_list():
 
 def ask_status():
     status_input = input('What is the status of this task? (complete/in progress/not started): ').strip().lower()
-
     status_map = {
         'done': 'complete', 'd': 'complete', 'c': 'complete', 'complete': 'complete',
         'ip': 'in progress', 'in progress': 'in progress', 'started': 'in progress', 's': 'in progress',
         'not started': 'not started', 'ns': 'not started'
     }
-
     if status_input not in status_map:
         print('Invalid status. Defaulting to "not started".')
-
     return status_map.get(status_input, 'not started')
 
+# --- Main loop ---
 to_do_list()
 
 while True:
-    add_to_list = input('Input a task (or type "done" to finish): ').strip().lower()
+    user_input = input('Input a task (or type "done" to finish): ').strip().lower()
+    command_key = identify_command(user_input)
 
-    if add_to_list == 'done':
+    # Exit
+    if command_key == 'done':
         conf = input('Are you sure? (yes/no): ').strip().lower()
         if conf in ['yes', 'y']:
             break
         else:
             continue
 
-    if add_to_list in ['show list', 'list', 'l', 'sl', 'ls']:
+    # Show list
+    elif command_key == 'list':
         display_list()
         continue
 
-    elif add_to_list in ['help', 'h', '?']:
+    # Help
+    elif command_key == 'help':
         print('\nAvailable Commands:')
         for command, data in todo_commands.items():
             keywords = ', '.join(data["keywords"])
@@ -104,59 +116,51 @@ while True:
         print()
         continue
 
-    elif add_to_list in ['remove', 'delete']:
+    # Remove task
+    elif command_key == 'remove':
         display_list()
         try:
             task_index = int(input('Enter the task number you want removed: ')) - 1
-        except ValueError as e:
-            print("Input is not a valid integer.")
-            print(e)
-            continue
-        if task_index < 0 or task_index >= len(todo):
-            print('Invalid task number')
-            continue
-        try:
-            inp = input(f'Are you sure you want to delete {task_index + 1}: "{todo[task_index]["task"]}"? (y/n) ').strip().lower()
-            if inp in ['y', 'yes']:
-                del todo[task_index]
-                print('Item has been successfully removed!')
-                save_list()
+            if 0 <= task_index < len(todo):
+                confirm = input(f'Delete {task_index + 1}: "{todo[task_index]["task"]}"? (y/n): ').strip().lower()
+                if confirm in ['y', 'yes']:
+                    del todo[task_index]
+                    print('Item removed!')
+                    save_list()
+                else:
+                    print('No deletions made.')
             else:
-                print('No deletions were made.')
-        except IndexError as e:
-            print("Index is out of range.")
-            print(e)
+                print('Invalid task number.')
+        except (ValueError, IndexError) as e:
+            print(f'Error: {e}')
         continue
 
-    elif add_to_list in ['edit', 'change']:
+    # Edit task
+    elif command_key == 'edit':
         display_list()
         try:
-            task_index = int(input('Enter the task number you want to edit: ')) - 1
-        except ValueError as e:
-            print("Input is not a valid integer.")
-            print(e)
-            continue
-        if task_index < 0 or task_index >= len(todo):
-            print('Invalid task number')
-            continue
-
-        field_to_edit = input('Edit task name or status? (type "name" or "status"): ').strip().lower()
-        if field_to_edit in ['name', 'n']:
-            new_name = input('Enter new task name: ').strip()
-            todo[task_index]['task'] = new_name
-            print('Task name updated.')
-        elif field_to_edit in ['status', 's']:
-            new_status = ask_status()
-            todo[task_index]['status'] = new_status
-            print('Task status updated.')
-        else:
-            print('Invalid choice, returning to main menu.')
-            continue
-
-        save_list()
+            task_index = int(input('Enter the task number to edit: ')) - 1
+            if 0 <= task_index < len(todo):
+                field_to_edit = input('Edit task name or status? (type "name" or "status"): ').strip().lower()
+                if field_to_edit in ['name', 'n']:
+                    new_name = input('Enter new task name: ').strip()
+                    todo[task_index]['task'] = new_name
+                    print('Task name updated.')
+                elif field_to_edit in ['status', 's', 'stat', 'stats']:
+                    new_status = ask_status()
+                    todo[task_index]['status'] = new_status
+                    print('Task status updated.')
+                else:
+                    print('Invalid choice.')
+                save_list()
+            else:
+                print('Invalid task number.')
+        except (ValueError, IndexError) as e:
+            print(f'Error: {e}')
         continue
 
-    elif add_to_list == 'save':
+    # Save
+    elif command_key == 'save':
         try:
             save_list()
             print('Your list has been saved!')
@@ -165,14 +169,21 @@ while True:
             print(e)
         continue
 
-    # Add new task
-    status = ask_status()
-    todo.append({
-        'task': add_to_list,
-        'status': status
-    })
-    print(f'"{add_to_list}" has been added to the list as: {status}')
-    save_list()
+    # Mark task as complete by number
+    elif user_input.isdigit():
+        task_index = int(user_input) - 1
+        if 0 <= task_index < len(todo):
+            todo[task_index]['status'] = 'complete'
+            print(f'Task {task_index + 1} marked as complete')
+            save_list()
+        else:
+            print('Invalid task number.')
+        continue
 
+    # Unknown input = new task
+    status = ask_status()
+    todo.append({'task': user_input, 'status': status})
+    print(f'"{user_input}" added to the list as: {status}')
+    save_list()
     print('\nCurrent To-Do List:')
     display_list()
