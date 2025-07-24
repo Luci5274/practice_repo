@@ -24,7 +24,7 @@ todo_commands = {
         "description": "Save the current list to file"
     },
     "done": {
-        "keywords": ["done", "exit", "quit", "leave", "close", 'q'],
+        "keywords": ["done", "exit", "quit", "leave", "close", "q"],
         "description": "Exit the program"
     },
     "help": {
@@ -45,6 +45,19 @@ todo_commands = {
     }
 }
 
+# --- ANSI Color Codes ---
+COLOR_RESET = '\033[0m'
+COLOR_RED = '\033[91m'
+COLOR_YELLOW = '\033[93m'
+COLOR_GREEN = '\033[92m'
+
+def color_priority(priority):
+    if priority in ['h','high']:
+        return COLOR_RED + 'HIGH' + COLOR_RESET
+    elif priority in ['medium','m']:
+        return COLOR_YELLOW + 'MEDIUM' + COLOR_RESET
+    else:
+        return COLOR_GREEN + 'LOW' + COLOR_RESET
 
 def identify_command(user_input):
     for cmd, data in todo_commands.items():
@@ -72,8 +85,12 @@ def load_or_create_todo():
 
 def display_list():
     for x, task in enumerate(todo):
-        print(f'- {x + 1}: {task["task"]} ({task["status"]})')
+        task_name = task["task"]
+        task_status = task.get("status", "not started")
+        priority_raw = task.get("priority", "low")  # fallback for old tasks
+        priority_display = color_priority(priority_raw)
 
+        print(f'- {x + 1}: {task_name} ({task_status}) [{priority_display}]')
 
 def welcome():
     print('Welcome to your to-do list!')
@@ -91,6 +108,12 @@ def ask_status():
         print('Invalid status. Defaulting to "not started".')
     return status_map.get(status_input, 'not started')
 
+def ask_priority():
+    priority_input = input('Set task priority (high/medium/low): ').strip().lower()
+    valid_priorities = ['high', 'medium', 'low']
+    if priority_input not in valid_priorities:
+        print('Invalid priority. Defaulting to "low".')
+    return priority_input if priority_input in valid_priorities else 'low'
 
 def show_help():
     print('\nAvailable Commands:')
@@ -99,6 +122,14 @@ def show_help():
         print(f'{command.upper():<10} - {data["description"]} (aliases: {keywords})')
     print()
 
+def handle_add(user_input):
+    status = ask_status()
+    priority = ask_priority()
+    todo.append({'task': user_input, 'status': status, 'priority': priority})
+    print(f'"{user_input}" added to the list as: {status} with priority: {priority}')
+    save_list()
+    print('\nCurrent To-Do List:')
+    display_list()
 
 def handle_remove():
     display_list()
@@ -116,6 +147,26 @@ def handle_remove():
             print('Invalid task number.')
     except (ValueError, IndexError) as e:
         print(f'Error: {e}')
+
+
+def handle_clear():
+    if not todo:
+        print('Your list is already empty.')
+        return
+
+    print(
+        '\n****WARNING****\n'
+        'THIS WILL CLEAR YOUR LIST\n'
+        '****WARNING****\n'
+    )
+    confirm = input('Are you sure (Y)es/(N)o?: ').strip().lower()
+
+    if confirm in ['yes', 'y']:
+        todo.clear()
+        save_list()
+        print('All tasks have been successfully cleared!')
+    else:
+        print("Clear operation canceled.")
 
 
 def handle_edit():
@@ -168,6 +219,8 @@ def main_loop():
             show_help()
         elif command_key == 'remove':
             handle_remove()
+        elif command_key == 'clear':
+            handle_clear()
         elif command_key == 'edit':
             handle_edit()
         elif command_key == 'save':
