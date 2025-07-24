@@ -1,1 +1,7 @@
-[]
+[
+  {
+    "task": "create a 'vibe playlist' maker for spotify",
+    "status": "not started",
+    "priority": "low"
+  }
+]
