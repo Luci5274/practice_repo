@@ -17,7 +17,7 @@ todo_commands = {
     },
     "edit": {
         "keywords": ["edit", "update", "change"],
-        "description": "Edit an existing task's text or status"
+        "description": "Edit an existing task's text, status, or priority"
     },
     "save": {
         "keywords": ["save", "write"],
@@ -52,25 +52,24 @@ COLOR_YELLOW = '\033[93m'
 COLOR_GREEN = '\033[92m'
 
 def color_priority(priority):
-    if priority in ['h','high']:
+    if priority in ['h', 'high']:
         return COLOR_RED + 'HIGH' + COLOR_RESET
-    elif priority in ['medium','m']:
+    elif priority in ['medium', 'm']:
         return COLOR_YELLOW + 'MEDIUM' + COLOR_RESET
     else:
         return COLOR_GREEN + 'LOW' + COLOR_RESET
 
 def identify_command(user_input):
+    user_input = user_input.lower()
     for cmd, data in todo_commands.items():
         if user_input in data['keywords']:
             return cmd
     return None
 
-
 def save_list():
     with open('todo.json', 'w') as file:
-        json.dump(todo, file)
-    print('List Saved!')
-
+        json.dump(todo, file, indent=2)
+    print('List saved!')
 
 def load_or_create_todo():
     if os.path.exists('todo.json'):
@@ -78,24 +77,26 @@ def load_or_create_todo():
             return json.load(f)
     else:
         return [
-            {'task': 'buy milk', 'status': 'complete'},
-            {'task': 'do laundry', 'status': 'not started'}
+            {'task': 'buy milk', 'status': 'complete', 'priority': 'low'},
+            {'task': 'do laundry', 'status': 'not started', 'priority': 'low'}
         ]
 
-
 def display_list():
-    for x, task in enumerate(todo):
-        task_name = task["task"]
+    if not todo:
+        print("Your to-do list is empty.")
+        return
+    print("\nCurrent To-Do List:")
+    for idx, task in enumerate(todo):
+        task_name = task.get("task", "")
         task_status = task.get("status", "not started")
-        priority_raw = task.get("priority", "low")  # fallback for old tasks
+        priority_raw = task.get("priority", "low")  # fallback for older tasks
         priority_display = color_priority(priority_raw)
-
-        print(f'- {x + 1}: {task_name} ({task_status}) [{priority_display}]')
+        print(f'- {idx + 1}: {task_name} ({task_status}) [{priority_display}]')
+    print()
 
 def welcome():
     print('Welcome to your to-do list!')
     print('Commands: [task name], "list", "remove", "edit", "save", "done", "help"')
-
 
 def ask_status():
     status_input = input('What is the status of this task? (complete/in progress/not started): ').strip().lower()
@@ -109,11 +110,17 @@ def ask_status():
     return status_map.get(status_input, 'not started')
 
 def ask_priority():
-    priority_input = input('Set task priority (high/medium/low): ').strip().lower()
-    valid_priorities = ['high', 'medium', 'low']
+    priority_input = input('Set task priority (high/medium/low) [default low]: ').strip().lower()
+    valid_priorities = {
+        'h': 'high', 'high': 'high',
+        'm': 'medium', 'medium': 'medium',
+        'l': 'low', 'low': 'low',
+        '': 'low'
+    }
     if priority_input not in valid_priorities:
         print('Invalid priority. Defaulting to "low".')
-    return priority_input if priority_input in valid_priorities else 'low'
+        return 'low'
+    return valid_priorities[priority_input]
 
 def show_help():
     print('\nAvailable Commands:')
@@ -128,10 +135,12 @@ def handle_add(user_input):
     todo.append({'task': user_input, 'status': status, 'priority': priority})
     print(f'"{user_input}" added to the list as: {status} with priority: {priority}')
     save_list()
-    print('\nCurrent To-Do List:')
     display_list()
 
 def handle_remove():
+    if not todo:
+        print("Your list is already empty.")
+        return
     display_list()
     try:
         task_index = int(input('Enter the task number you want removed: ')) - 1
@@ -141,13 +150,13 @@ def handle_remove():
                 del todo[task_index]
                 print('Item removed!')
                 save_list()
+                display_list()
             else:
                 print('No deletions made.')
         else:
             print('Invalid task number.')
     except (ValueError, IndexError) as e:
         print(f'Error: {e}')
-
 
 def handle_clear():
     if not todo:
@@ -168,48 +177,50 @@ def handle_clear():
     else:
         print("Clear operation canceled.")
 
-
 def handle_edit():
+    if not todo:
+        print("Your list is empty. Nothing to edit.")
+        return
     display_list()
     try:
         task_index = int(input('Enter the task number to edit: ')) - 1
         if 0 <= task_index < len(todo):
-            field_to_edit = input('Edit task name or status? (type "name" or "status"): ').strip().lower()
+            field_to_edit = input('Edit task name, status, or priority? (type "name", "status", or "priority"): ').strip().lower()
             if field_to_edit in ['name', 'n']:
                 new_name = input('Enter new task name: ').strip()
-                todo[task_index]['task'] = new_name
-                print('Task name updated.')
+                if new_name:
+                    todo[task_index]['task'] = new_name
+                    print('Task name updated.')
+                else:
+                    print('Task name cannot be empty.')
             elif field_to_edit in ['status', 's', 'stat', 'stats']:
                 new_status = ask_status()
                 todo[task_index]['status'] = new_status
                 print('Task status updated.')
+            elif field_to_edit in ['priority', 'p']:
+                new_priority = ask_priority()
+                todo[task_index]['priority'] = new_priority
+                print('Task priority updated.')
             else:
                 print('Invalid choice.')
             save_list()
+            display_list()
         else:
             print('Invalid task number.')
     except (ValueError, IndexError) as e:
         print(f'Error: {e}')
 
-
-def handle_add(user_input):
-    status = ask_status()
-    todo.append({'task': user_input, 'status': status})
-    print(f'"{user_input}" added to the list as: {status}')
-    save_list()
-    print('\nCurrent To-Do List:')
-    display_list()
-
-
 def main_loop():
     welcome()
     while True:
-        user_input = input('Input a task (or type "done" to finish): ').strip().lower()
+        raw_input_text = input('Input a task (or type "done" to finish): ').strip()
+        user_input = raw_input_text.lower()
         command_key = identify_command(user_input)
 
         if command_key == 'done':
             conf = input('Are you sure? (yes/no): ').strip().lower()
             if conf in ['yes', 'y']:
+                print("Goodbye!")
                 break
             else:
                 continue
@@ -228,19 +239,23 @@ def main_loop():
                 save_list()
                 print('Your list has been saved!')
             except Exception as e:
-                print('UH OH! Something went wrong')
+                print('UH OH! Something went wrong.')
                 print(e)
         elif user_input.isdigit():
             task_index = int(user_input) - 1
             if 0 <= task_index < len(todo):
                 todo[task_index]['status'] = 'complete'
-                print(f'Task {task_index + 1} marked as complete')
+                print(f'Task {task_index + 1} marked as complete.')
                 save_list()
+                display_list()
             else:
                 print('Invalid task number.')
         else:
-            handle_add(user_input)
-
+            # Treat input as a new task
+            if raw_input_text == '':
+                print("Please enter a valid task name or command.")
+            else:
+                handle_add(raw_input_text)
 
 # --- Entry point ---
 if __name__ == "__main__":
