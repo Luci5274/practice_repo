@@ -1,7 +1,6 @@
 import random
 import sys
 
-
 def die():
     """DOCSTRING
         Prompt user for a number and roll a die with that many sides (1–100).
