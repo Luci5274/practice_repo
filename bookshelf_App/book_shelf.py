@@ -115,7 +115,7 @@ def main():
         if choice == "1":
             shelf.display_shelf()
         elif choice == "2":
-            title = input("Enter the book title: ")
+            title = input("Enter the book title: ").lower()
             shelf.add_mark_read(title)
         elif choice == "3":
             shelf.select_book_by_num()
