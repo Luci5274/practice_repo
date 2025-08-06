@@ -6,7 +6,7 @@
   <component name="ChangeListManager">
     <list default="true" id="d84b4bf0-6d7e-4470-9804-fb2ef7d5f6b1" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/bookshelf_App/book_shelf.py" beforeDir="false" afterPath="$PROJECT_DIR$/bookshelf_App/book_shelf.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/bookshelf_App/requirements.txt" beforeDir="false" afterPath="$PROJECT_DIR$/bookshelf_App/requirements.txt" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -68,7 +68,7 @@
     "git-widget-placeholder": "bookshelf__app__GF",
     "ignore.virus.scanning.warn.message": "true",
     "last_opened_file_path": "C:/Users/Luci/Documents/Code/Practice_repo/practice_repo",
-    "settings.editor.selected.configurable": "editor.reader.mode"
+    "settings.editor.selected.configurable": "preferences.pluginManager"
   }
 }]]></component>
   <component name="RunManager">
@@ -98,7 +98,7 @@
   <component name="SharedIndexes">
     <attachedChunks>
       <set>
-        <option value="bundled-python-sdk-4c141bd692a7-e2d783800521-com.jetbrains.pycharm.community.sharedIndexes.bundled-PC-251.26927.90" />
+        <option value="bundled-python-sdk-03e874896e21-d902c0275401-com.jetbrains.pycharm.community.sharedIndexes.bundled-PC-252.23892.439" />
       </set>
     </attachedChunks>
   </component>
