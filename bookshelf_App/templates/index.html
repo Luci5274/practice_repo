@@ -1,0 +1,33 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Document</title>
+<link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+</head>
+<body>
+    <h1>HELLO FLASK!</h1>
+
+    <ul>
+        {% for book in books %}
+            <li>
+                {{book.title}} - read {{book.times_read}} time(s)
+                <form action="/mark_read" method="POST" style="display:inline;">
+                    <input type="hidden" name="title" value="{{book.title}}">
+                    <button type="submit">mark as read</button>
+                </form>
+                <form action="/delete_book" method="POST" style="display:inline;" onsubmit="return confirm('Are you sure you want to delete this book?');">
+                    <input type="hidden" name="title" value="{{ book.title }}">
+                    <button type="submit">delete</button>
+                </form>
+            </li>
+        {% endfor %}
+    </ul>
+    <form action="/add_book" method="POST">
+        <input type ='text' name = 'title' placeholer="enter book title" required>
+        <button type="submit">Add Book</button>
+    </form>
+
+</body>
+</html>
