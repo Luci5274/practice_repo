@@ -20,7 +20,7 @@ will be created automatically upon saving if it does not exist.
 
 import os
 import json
-from flask import Flask, render_template, request
+from flask import Flask, render_template, request, url_for
 from werkzeug.utils import redirect
 
 app = Flask(__name__)
@@ -142,6 +142,23 @@ def delete_book():
 
     return redirect('/')
 
+@app.route('/edit_book', methods=['POST'])
+def edit_book():
+    old_title = request.form.get('old_title')
+    new_title = request.form.get('new_title').strip()
+
+    normalized_old_title = old_title.strip().lower()
+
+    if not new_title:
+        return redirect('/')
+
+    for book in books:
+        if book['title'].lower() == normalized_old_title:
+            book['title'] = new_title
+            break
+
+    return redirect('/')
+
 
 @app.route('/save', methods=['POST'])
 def save():
@@ -154,6 +171,8 @@ def save():
     save_books(books)
     print('Save Successful!')
     return redirect('/')
+
+
 
 
 if __name__ == '__main__':
