@@ -5,12 +5,10 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="d84b4bf0-6d7e-4470-9804-fb2ef7d5f6b1" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/bookshelf_App/books.json" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/bookshelf_App/static/scripts.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/practice_repo.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/practice_repo.iml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/bookshelf_App/flask_bookshelf.py" beforeDir="false" afterPath="$PROJECT_DIR$/bookshelf_App/flask_bookshelf.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/bookshelf_App/static/styles.css" beforeDir="false" afterPath="$PROJECT_DIR$/bookshelf_App/static/styles.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/bookshelf_App/templates/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/bookshelf_App/templates/index.html" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -27,7 +25,7 @@
   <component name="Git.Settings">
     <option name="RECENT_BRANCH_BY_REPOSITORY">
       <map>
-        <entry key="$PROJECT_DIR$" value="practice_repo_habit_tracker_GF" />
+        <entry key="$PROJECT_DIR$" value="courrier_TA_game_GF" />
       </map>
     </option>
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
@@ -52,30 +50,30 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">{
-  &quot;keyToString&quot;: {
-    &quot;ASKED_SHARE_PROJECT_CONFIGURATION_FILES&quot;: &quot;true&quot;,
-    &quot;ModuleVcsDetector.initialDetectionPerformed&quot;: &quot;true&quot;,
-    &quot;Python.basic_calc.executor&quot;: &quot;Run&quot;,
-    &quot;Python.book_shelf.executor&quot;: &quot;Run&quot;,
-    &quot;Python.class_dice.executor&quot;: &quot;Run&quot;,
-    &quot;Python.classes_lesson.executor&quot;: &quot;Run&quot;,
-    &quot;Python.connor_temp_convert.executor&quot;: &quot;Run&quot;,
-    &quot;Python.f-c_claculator.executor&quot;: &quot;Run&quot;,
-    &quot;Python.main.executor&quot;: &quot;Run&quot;,
-    &quot;Python.temp_convert.executor&quot;: &quot;Run&quot;,
-    &quot;Python.tic-tac-toe.executor&quot;: &quot;Run&quot;,
-    &quot;Python.to-do.executor&quot;: &quot;Run&quot;,
-    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.TerminalTabsStorage.copyFrom.TerminalArrangementManager&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.TerminalTabsStorage.copyFrom.TerminalArrangementManager.252&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.git.unshallow&quot;: &quot;true&quot;,
-    &quot;git-widget-placeholder&quot;: &quot;bookshelf__app__GF&quot;,
-    &quot;ignore.virus.scanning.warn.message&quot;: &quot;true&quot;,
-    &quot;last_opened_file_path&quot;: &quot;C:/Users/Luci/Documents/Code/Practice_repo/practice_repo/bookshelf_App&quot;,
-    &quot;settings.editor.selected.configurable&quot;: &quot;preferences.pluginManager&quot;
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "ASKED_SHARE_PROJECT_CONFIGURATION_FILES": "true",
+    "ModuleVcsDetector.initialDetectionPerformed": "true",
+    "Python.basic_calc.executor": "Run",
+    "Python.book_shelf.executor": "Run",
+    "Python.class_dice.executor": "Run",
+    "Python.classes_lesson.executor": "Run",
+    "Python.connor_temp_convert.executor": "Run",
+    "Python.f-c_claculator.executor": "Run",
+    "Python.main.executor": "Run",
+    "Python.temp_convert.executor": "Run",
+    "Python.tic-tac-toe.executor": "Run",
+    "Python.to-do.executor": "Run",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "RunOnceActivity.TerminalTabsStorage.copyFrom.TerminalArrangementManager": "true",
+    "RunOnceActivity.TerminalTabsStorage.copyFrom.TerminalArrangementManager.252": "true",
+    "RunOnceActivity.git.unshallow": "true",
+    "git-widget-placeholder": "bookshelf__app__GF",
+    "ignore.virus.scanning.warn.message": "true",
+    "last_opened_file_path": "C:/Users/Luci/Documents/Code/Practice_repo/practice_repo/bookshelf_App",
+    "settings.editor.selected.configurable": "com.jetbrains.python.configuration.PyActiveSdkModuleConfigurable"
   }
-}</component>
+}]]></component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
       <recent name="C:\Users\Luci\Documents\Code\Practice_repo\practice_repo\bookshelf_App" />
@@ -108,7 +106,7 @@
   <component name="SharedIndexes">
     <attachedChunks>
       <set>
-        <option value="bundled-python-sdk-03e874896e21-d902c0275401-com.jetbrains.pycharm.community.sharedIndexes.bundled-PC-252.23892.439" />
+        <option value="bundled-python-sdk-4c141bd692a7-e2d783800521-com.jetbrains.pycharm.community.sharedIndexes.bundled-PC-251.26927.90" />
       </set>
     </attachedChunks>
   </component>
