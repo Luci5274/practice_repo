@@ -7,13 +7,17 @@
     <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
 </head>
 <body>
-    <h1>HELLO FLASK!</h1>
+    <h1>Flask Bookshelf!</h1>
         <div class="button-container">
         <form action="/save" method="post">
             <button type="submit">Save Books</button>
         </form>
     </div>
 
+    <form action="/add_book" method="POST">
+        <input type="text" name="title" placeholder="enter book title" required>
+        <button type="submit">Add Book</button>
+    </form>
     <ul>
         {% for book in books %}
             <li>
@@ -40,10 +44,6 @@
             </li>
         {% endfor %}
     </ul>
-    <form action="/add_book" method="POST">
-        <input type="text" name="title" placeholder="enter book title" required>
-        <button type="submit">Add Book</button>
-    </form>
     <div class="button-container">
         <form action="/save" method="post">
             <button type="submit">Save Books</button>

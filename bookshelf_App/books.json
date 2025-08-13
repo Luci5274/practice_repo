@@ -1,6 +1,14 @@
 [
     {
-        "title": "Invincible",
+        "title": "Invincible 1",
+        "times_read": 1
+    },
+    {
+        "title": "Invincible 2",
+        "times_read": 1
+    },
+    {
+        "title": "Invincible 3",
         "times_read": 1
     }
 ]

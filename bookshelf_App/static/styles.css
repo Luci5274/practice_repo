@@ -1,23 +1,55 @@
 body {
     border: 1px solid #ccc;
     margin: 5px auto;
-    padding:10px 20px;
+    padding: 10px 20px;
     width: 90%;
     font-family: Arial, sans-serif;
 }
 
 h1 {
     text-align: center;
-    border-bottom:1px solid #ccc;
-    }
+    border-bottom: 1px solid #ccc;
+}
+
+ul {
+    text-align:center;
+    margin: 10px auto;
+    width: 60%;
+}
+
+li{
+    border-bottom:1px solid;
+    padding:4px;
+    text-align:center;
+    margin: 4px;
+    list-style-position: inside;
+}
 
 .button-container {
-    margin: 20px 0;
+    margin: 20px 10px;
     text-align: center;
 }
 
 button {
-    padding: 10px 20px;
+    margin: 5px 2px;
+    border:2px solid grey;
+    border-radius: 5px;
+    padding: 5px 10px;
     font-size: 16px;
     cursor: pointer;
+    color: black; /* medium gray text */
+    background-color: light-grey;
+    transition: background-color 0.3s ease, font-weight 0.3s ease, color 0.3s ease;
+}
+
+button:hover {
+    background-color: rgba(173, 216, 230, 0.7); /* transparent baby blue */
+    font-weight: bold;
+    border:2px solid black;
+}
+
+button:active {
+    transform: scale(0.95);
+    background-color: rgba(150, 200, 230, 0.7);
+    transition: transform 0.1s ease;
 }
